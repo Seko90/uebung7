@@ -12,6 +12,10 @@ class ProjectsController < ApplicationController
 			render action: 'error'
 		end
 	end
+	def destroy
+		@project = Project.find(params[:id])
+		@project.destroy
+	end
 
 
 
