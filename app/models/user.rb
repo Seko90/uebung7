@@ -5,4 +5,5 @@ class User < ActiveRecord::Base
   :recoverable, :rememberable, :trackable, :validatable
   validates :username, presence:  true, uniqueness: true
   has_many :tasks
+  has_many :delegated_tasks, class_name: "Task", foreign_key: "delegated_id"
 end

@@ -4102,3 +4102,11 @@ Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-01-21 07:46:34 +010
 
 
 Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-01-21 07:46:34 +0100
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to AddDelegatedToTasks (20140121064707)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.4ms)[0m  [1mALTER TABLE "tasks" ADD "delegated_id" integer[0m
+  [1m[35m (0.1ms)[0m  CREATE INDEX "index_tasks_on_delegated_id" ON "tasks" ("delegated_id")
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140121064707"]]
+  [1m[35m (1.4ms)[0m  commit transaction
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
