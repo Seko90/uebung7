@@ -4110,3 +4110,69 @@ Migrating to AddDelegatedToTasks (20140121064707)
   [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140121064707"]]
   [1m[35m (1.4ms)[0m  commit transaction
   [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateProjects (20140121072331)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.4ms)[0m  [1mCREATE TABLE "projects" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20140121072331"]]
+  [1m[36m (1.0ms)[0m  [1mcommit transaction[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.1ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to AddProjectIdToTasks (20140121072413)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mALTER TABLE "tasks" ADD "project_id" integer[0m
+  [1m[35m (0.1ms)[0m  CREATE INDEX "index_tasks_on_project_id" ON "tasks" ("project_id")
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20140121072413"]]
+  [1m[35m (1.3ms)[0m  commit transaction
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36m (0.9ms)[0m  [1mDROP TABLE "projects"[0m
+  [1m[35m (0.9ms)[0m  CREATE TABLE "projects" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.9ms)[0m  [1mDROP TABLE "tasks"[0m
+  [1m[35m (0.8ms)[0m  CREATE TABLE "tasks" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "deadline" date, "done" boolean, "duration" float, "created_at" datetime, "updated_at" datetime, "user_id" integer, "delegated_id" integer, "project_id" integer) 
+  [1m[36m (0.8ms)[0m  [1mCREATE INDEX "index_tasks_on_delegated_id" ON "tasks" ("delegated_id")[0m
+  [1m[35m (1.1ms)[0m  CREATE INDEX "index_tasks_on_project_id" ON "tasks" ("project_id")
+  [1m[36m (1.0ms)[0m  [1mCREATE INDEX "index_tasks_on_user_id" ON "tasks" ("user_id")[0m
+  [1m[35m (1.1ms)[0m  DROP TABLE "users"
+  [1m[36m (1.1ms)[0m  [1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar(255) DEFAULT '' NOT NULL, "encrypted_password" varchar(255) DEFAULT '' NOT NULL, "reset_password_token" varchar(255), "reset_password_sent_at" datetime, "remember_created_at" datetime, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" datetime, "last_sign_in_at" datetime, "current_sign_in_ip" varchar(255), "last_sign_in_ip" varchar(255), "created_at" datetime, "updated_at" datetime, "username" varchar(255)) [0m
+  [1m[35m (0.9ms)[0m  CREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")
+  [1m[36m (0.6ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")[0m
+  [1m[35m (0.1ms)[0m  SELECT version FROM "schema_migrations"
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'alive@alice.com' LIMIT 1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."username" = 'Alice' LIMIT 1
+Binary data inserted for `string` type on column `encrypted_password`
+  [1m[36mSQL (1.8ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at", "username") VALUES (?, ?, ?, ?, ?)[0m  [["created_at", Tue, 21 Jan 2014 07:25:01 UTC +00:00], ["email", "alive@alice.com"], ["encrypted_password", "$2a$10$GhpRMRHmT2if2JP4Q6rdAuBo7S/ZGA8McwVTGjn2Qc4b7vt66udfW"], ["updated_at", Tue, 21 Jan 2014 07:25:01 UTC +00:00], ["username", "Alice"]]
+  [1m[35m (0.8ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'bob@bob.com' LIMIT 1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."username" = 'Bob' LIMIT 1[0m
+Binary data inserted for `string` type on column `encrypted_password`
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at", "username") VALUES (?, ?, ?, ?, ?)  [["created_at", Tue, 21 Jan 2014 07:25:01 UTC +00:00], ["email", "bob@bob.com"], ["encrypted_password", "$2a$10$YH2/8Cw1BC0F3cBonOiSKe0GGETaTgbPPMudPp1uhPUUD6dA.qCMu"], ["updated_at", Tue, 21 Jan 2014 07:25:01 UTC +00:00], ["username", "Bob"]]
+  [1m[36m (1.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mProject Exists (0.1ms)[0m  [1mSELECT 1 AS one FROM "projects" WHERE "projects"."name" = 'Rails-Kurs' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "projects" ("created_at", "name", "updated_at") VALUES (?, ?, ?)  [["created_at", Tue, 21 Jan 2014 07:25:01 UTC +00:00], ["name", "Rails-Kurs"], ["updated_at", Tue, 21 Jan 2014 07:25:01 UTC +00:00]]
+  [1m[36m (0.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mProject Exists (0.1ms)[0m  [1mSELECT 1 AS one FROM "projects" WHERE "projects"."name" = 'Startup' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "projects" ("created_at", "name", "updated_at") VALUES (?, ?, ?)  [["created_at", Tue, 21 Jan 2014 07:25:01 UTC +00:00], ["name", "Startup"], ["updated_at", Tue, 21 Jan 2014 07:25:01 UTC +00:00]]
+  [1m[36m (1.0ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (1.3ms)[0m  [1mINSERT INTO "tasks" ("created_at", "deadline", "delegated_id", "done", "duration", "name", "project_id", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["created_at", Tue, 21 Jan 2014 07:25:02 UTC +00:00], ["deadline", Tue, 28 Jan 2014], ["delegated_id", 2], ["done", false], ["duration", 2.0], ["name", "Todo-Applikation"], ["project_id", 1], ["updated_at", Tue, 21 Jan 2014 07:25:02 UTC +00:00], ["user_id", 1]]
+  [1m[35m (0.9ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "tasks" ("created_at", "deadline", "done", "duration", "name", "project_id", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["created_at", Tue, 21 Jan 2014 07:25:02 UTC +00:00], ["deadline", Fri, 31 Jan 2014], ["done", false], ["duration", 2.0], ["name", "Idee für eigene Web-Applikation"], ["project_id", 2], ["updated_at", Tue, 21 Jan 2014 07:25:02 UTC +00:00], ["user_id", 2]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "tasks" ("created_at", "deadline", "delegated_id", "done", "duration", "name", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["created_at", Tue, 21 Jan 2014 07:25:02 UTC +00:00], ["deadline", Sun, 19 Jan 2014], ["delegated_id", 2], ["done", false], ["duration", 3.0], ["name", "Rails for Zombies"], ["updated_at", Tue, 21 Jan 2014 07:25:02 UTC +00:00], ["user_id", 1]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "tasks" ("created_at", "deadline", "done", "duration", "name", "project_id", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["created_at", Tue, 21 Jan 2014 07:25:02 UTC +00:00], ["deadline", Fri, 17 Jan 2014], ["done", false], ["duration", 3.0], ["name", "Übung 6: Rails Account"], ["project_id", 1], ["updated_at", Tue, 21 Jan 2014 07:25:02 UTC +00:00], ["user_id", 2]]
+  [1m[36m (0.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "tasks" ("created_at", "deadline", "done", "duration", "name", "project_id", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["created_at", Tue, 21 Jan 2014 07:25:02 UTC +00:00], ["deadline", Thu, 26 Dec 2013], ["done", true], ["duration", 4.0], ["name", "Übung 1: FizzBuzz"], ["project_id", 1], ["updated_at", Tue, 21 Jan 2014 07:25:02 UTC +00:00], ["user_id", 1]]
+  [1m[35m (0.6ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "tasks" ("created_at", "deadline", "delegated_id", "done", "duration", "name", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["created_at", Tue, 21 Jan 2014 07:25:02 UTC +00:00], ["deadline", Wed, 01 Jan 2014], ["delegated_id", 1], ["done", true], ["duration", 5.0], ["name", "Übung 2: Ruby Konto"], ["updated_at", Tue, 21 Jan 2014 07:25:02 UTC +00:00], ["user_id", 2]]
+  [1m[36m (0.6ms)[0m  [1mcommit transaction[0m
