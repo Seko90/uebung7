@@ -16,6 +16,7 @@
 //= require bootstrap-datepicker 
 //= require turbolinks
 //= require_tree .
+//= require jquery.ui.effect.all
 .done {
   text-decoration:line-through;
 }
