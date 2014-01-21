@@ -80,6 +80,6 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def task_params
-      params.require(:task).permit(:name, :deadline, :done, :duration, :delegated_id)
+      params.require(:task).permit(:name, :deadline, :done, :duration, :delegated_id, :project_id)
     end
-end
+  end

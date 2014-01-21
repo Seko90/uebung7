@@ -15,6 +15,10 @@
   <%= f.label :delegated_id %><br>
   <%= f.select :delegated_id, User.all.collect {|u| [ u.username, u.id ] }, { :include_blank => true, :selected => @task.delegated_id}, class: "form-control" %>
 </div>  
+<div class="form-group">
+  <%= f.label :project_id %><br>
+  <%= f.select :project_id, Project.all.collect {|p| [ p.name, p.id ] }, { :include_blank => true, :selected => @task.project_id}, class: "form-control" %>
+</div>
 <div class="checkbox">
   <label>
     <%= f.check_box :done %> <%= f.label :done %>
