@@ -1,2 +1,4 @@
 von Serkan Altin
 Programm zur Aufgabenverwaltung
+
+Diese Übung beinhaltet alle Übungen von 7 bis 9 !!
